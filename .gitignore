@@ -1,0 +1,31 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+
+# Dependency directories
+client/node_modules/
+server/node_modules/
+
+# Build directories
+client/build/
+server/dist/
+**/.env
+
+# Docker files
+Dockerfile
+docker-compose.yml
+# Shell scripts
+*.sh
+
+# Batch script and other files
+run.bat
+sources.txt
+runtime/
+installer/
+commands/
+
+# Local Netlify folder
+.netlify

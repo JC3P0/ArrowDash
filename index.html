@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrow Key Game</title>
+    <link rel="stylesheet" href="src/scenes/mainmenu.css">
+</head>
+<body>
+    <div id="main-menu-container"></div>
+    <div id="highscores-container" style="display: none;"></div>
+    <div id="game-container" style="display: none;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Make axios available globally
+        window.axios = axios;
+    </script>
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
