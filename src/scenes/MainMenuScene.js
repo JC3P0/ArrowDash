@@ -12,6 +12,7 @@ export default class MainMenuScene extends Phaser.Scene {
     create() {
         document.getElementById('main-menu-container').innerHTML = `
             <div class="menu">
+                <img id="selected-player-icon" class="player-icon" style="display: none;">
                 <button class="play" onclick="startGame()">Play</button>
                 <button onclick="selectPlayer()">Select Player</button>
                 <button onclick="viewHighScores()">High Scores</button>
@@ -21,6 +22,13 @@ export default class MainMenuScene extends Phaser.Scene {
         document.getElementById('main-menu-container').style.display = 'flex';
         document.getElementById('highscores-container').style.display = 'none';
         document.getElementById('game-container').style.display = 'none';
+
+        if (!window.selectedPlayer) {
+            const players = ['player-1', 'player-2', 'player-3', 'player-4', 'player-5'];
+            window.selectedPlayer = players[Math.floor(Math.random() * players.length)];
+        }
+        document.getElementById('selected-player-icon').src = `assets/${window.selectedPlayer}.png`;
+        document.getElementById('selected-player-icon').style.display = 'block';
     }
 }
 
@@ -32,7 +40,7 @@ window.startGame = function () {
 
 window.selectPlayer = function () {
     document.getElementById('main-menu-container').style.display = 'none';
-    document.getElementById('game-container').style.display = 'block';
+    document.getElementById('player-selector-container').style.display = 'flex';
     window.game.scene.start('PlayerSelectorScene');
 };
 

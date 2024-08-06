@@ -6,33 +6,54 @@ export default class PlayerSelectorScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('icon1', 'assets/icon1.png'); // Add your player icons to the assets folder
-        this.load.image('icon2', 'assets/icon2.png');
-        // Add more icons as needed
+        this.load.image('player-1', 'assets/player-1.png');
+        this.load.image('player-2', 'assets/player-2.png');
+        this.load.image('player-3', 'assets/player-3.png');
+        this.load.image('player-4', 'assets/player-4.png');
+        this.load.image('player-5', 'assets/player-5.png');
     }
 
     create() {
-        this.add.image(400, 300, 'sky');
+        document.getElementById('player-selector-container').innerHTML = `
+            <div class="player-selector">
+                <h1>Select Your Player</h1>
+                <div id="player-icons">
+                    <img src="assets/player-1.png" id="player-1" class="player-icon">
+                    <img src="assets/player-2.png" id="player-2" class="player-icon">
+                    <img src="assets/player-3.png" id="player-3" class="player-icon">
+                    <img src="assets/player-4.png" id="player-4" class="player-icon">
+                    <img src="assets/player-5.png" id="player-5" class="player-icon">
+                </div>
+            </div>
+        `;
 
-        this.add.text(400, 100, 'Select Your Player', { fontSize: '32px', fill: '#ffffff' })
-            .setOrigin(0.5);
+        document.getElementById('main-menu-container').style.display = 'none';
+        document.getElementById('highscores-container').style.display = 'none';
+        document.getElementById('game-container').style.display = 'none';
+        document.getElementById('player-selector-container').style.display = 'flex';
 
-        // Example icons
-        const icon1 = this.add.image(300, 300, 'icon1')
-            .setInteractive()
-            .on('pointerdown', () => this.selectPlayer('icon1'));
-
-        const icon2 = this.add.image(500, 300, 'icon2')
-            .setInteractive()
-            .on('pointerdown', () => this.selectPlayer('icon2'));
-
-        // Add more icons as needed
+        // Add event listeners to player icons
+        document.querySelectorAll('.player-icon').forEach(icon => {
+            icon.addEventListener('click', (event) => {
+                this.selectPlayer(event.target.id);
+            });
+        });
     }
 
-    selectPlayer(iconKey) {
-        // Save the selected player icon key (you can save this to a global variable or state)
-        console.log('Selected player:', iconKey);
-        this.scene.start('MainMenuScene'); // Return to the main menu or start the game
+    selectPlayer(playerId) {
+        console.log('Selected player:', playerId);
+        // Save the selected player to a global variable or state
+        window.selectedPlayer = playerId;
+        document.getElementById('selected-player-icon').src = `assets/${playerId}.png`;
+        document.getElementById('selected-player-icon').style.display = 'block';
+        this.backToMenu();
+    }
+
+    backToMenu() {
+        document.getElementById('main-menu-container').style.display = 'flex';
+        document.getElementById('highscores-container').style.display = 'none';
+        document.getElementById('game-container').style.display = 'none';
+        document.getElementById('player-selector-container').style.display = 'none';
+        this.scene.start('MainMenuScene'); // Ensure to start the MainMenuScene
     }
 }

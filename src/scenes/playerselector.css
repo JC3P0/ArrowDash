@@ -1,0 +1,39 @@
+/* src/scenes/playerselector.css */
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+    flex-direction: column;
+}
+
+.player-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player-selector h1 {
+    color: white;
+}
+
+#player-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.player-icon {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.player-icon:hover {
+    border: 2px solid white;
+}
