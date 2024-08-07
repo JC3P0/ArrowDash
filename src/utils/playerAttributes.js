@@ -11,7 +11,7 @@ const playerAttributes = {
         speed: 3,
     },
     'player-4': {
-        speed: 4,
+        speed: 5,
     },
     'player-5': {
         speed: 1,

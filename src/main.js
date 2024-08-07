@@ -2,7 +2,6 @@
 
 import PreloadScene from './scenes/PreloadScene.js';
 import GameScene from './scenes/GameScene.js';
-import UIScene from './scenes/UIScene.js';
 import PlayerSelectorScene from './scenes/PlayerSelectorScene.js';
 import HighScoresScene from './scenes/HighScoresScene.js';
 import MainMenuScene from './scenes/MainMenuScene.js';
@@ -21,7 +20,7 @@ const gameConfig = {
             debug: false
         }
     },
-    scene: [MainMenuScene, PreloadScene, GameScene, UIScene, PlayerSelectorScene, HighScoresScene]
+    scene: [MainMenuScene, PreloadScene, GameScene, PlayerSelectorScene, HighScoresScene]
 };
 
 const game = new Phaser.Game(gameConfig);

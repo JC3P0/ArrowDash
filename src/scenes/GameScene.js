@@ -1,6 +1,6 @@
 // src/scenes/GameScene.js
 
-import { saveHighScore, getHighScores } from '../api/highscores.js';
+import { generateArrowSequence, displaySequence, updateArrowColor, loadHighScores, checkAndSaveHighScore, handleWorldBounds } from '../utils/gameUtils.js';
 import playerAttributes from '../utils/playerAttributes.js';
 
 export default class GameScene extends Phaser.Scene {
@@ -29,8 +29,7 @@ export default class GameScene extends Phaser.Scene {
         this.add.image(400, 300, 'sky'); // Add the background image
 
         this.score = 0;
-        this.highscores = [];
-        this.arrowSequence = this.generateArrowSequence(10);
+        this.arrowSequence = generateArrowSequence(10);
         this.currentArrowIndex = 0;
         this.loadHighScores();
 
@@ -39,7 +38,7 @@ export default class GameScene extends Phaser.Scene {
         this.player.setCollideWorldBounds(true); // Make the player bounce off the world bounds
         this.player.body.onWorldBounds = true;
         this.player.body.bounce.set(1);
-        this.physics.world.on('worldbounds', this.handleWorldBounds, this);
+        this.physics.world.on('worldbounds', () => handleWorldBounds(this.player.body, this.currentDirection), this);
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.currentDirection = { x: 0, y: 0 };
@@ -51,9 +50,7 @@ export default class GameScene extends Phaser.Scene {
 
         this.scoreText = this.add.text(10, 10, 'Score: 0', { fontSize: '32px', fill: '#fff' });
 
-        this.arrows = this.arrowSequence.map((direction, index) => {
-            return this.add.image(100 + index * 70, 300, `blue${direction.charAt(0).toUpperCase() + direction.slice(1)}`);
-        });
+        displaySequence(this);
 
         this.input.keyboard.on('keydown', this.handleKey, this);
     }
@@ -98,7 +95,7 @@ export default class GameScene extends Phaser.Scene {
 
         const currentArrowDirection = this.arrowSequence[this.currentArrowIndex];
         if (event.key === `Arrow${currentArrowDirection.charAt(0).toUpperCase() + currentArrowDirection.slice(1)}`) {
-            this.arrows[this.currentArrowIndex].setTexture(`green${currentArrowDirection.charAt(0).toUpperCase() + currentArrowDirection.slice(1)}`);
+            updateArrowColor(this, this.currentArrowIndex, currentArrowDirection);
             this.currentArrowIndex++;
             this.score += 10;
             this.updateScore();
@@ -116,39 +113,15 @@ export default class GameScene extends Phaser.Scene {
     }
 
     async loadHighScores() {
-        try {
-            this.highscores = await getHighScores();
-        } catch (error) {
-            console.error('Error loading high scores:', error);
-        }
+        await loadHighScores(this);
     }
 
     async gameOver() {
-        const lowestHighScore = this.highscores[this.highscores.length - 1]?.score || 0;
-
-        if (this.highscores.length < 10 || this.score > lowestHighScore) {
-            const playerName = prompt('You got a high score! Enter your name:');
-            if (playerName) {
-                await saveHighScore(playerName, this.score);
-                this.loadHighScores();
-            }
+        const playerName = prompt('You got a high score! Enter your name:');
+        if (playerName) {
+            await checkAndSaveHighScore(this, playerName, this.score);
         }
 
         this.scene.start('MainMenuScene');
-    }
-
-    generateArrowSequence(length) {
-        const directions = ['up', 'down', 'left', 'right'];
-        return Array.from({ length }, () => directions[Math.floor(Math.random() * directions.length)]);
-    }
-
-    handleWorldBounds(body) {
-        // Reverse the direction of velocity when hitting the edge
-        if (body.blocked.up || body.blocked.down) {
-            this.currentDirection.y = -this.currentDirection.y;
-        }
-        if (body.blocked.left || body.blocked.right) {
-            this.currentDirection.x = -this.currentDirection.x;
-        }
     }
 }
