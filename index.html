@@ -6,12 +6,22 @@
     <title>Arrow Key Game</title>
     <link rel="stylesheet" href="src/scenes/mainmenu.css">
     <link rel="stylesheet" href="src/scenes/playerselector.css">
+    <link rel="stylesheet" href="src/scenes/highscores.css">
+    <link rel="stylesheet" href="src/scenes/gamescene.css">
 </head>
 <body>
     <div id="main-menu-container"></div>
     <div id="highscores-container" style="display: none;"></div>
     <div id="game-container" style="display: none;"></div>
     <div id="player-selector-container" style="display: none;"></div>
+    <div id="highscore-popup" style="display: none;">
+        <div class="popup-content">
+            <h2>New High Score!</h2>
+            <label for="player-name">Enter your name:</label>
+            <input type="text" id="player-name" maxlength="6">
+            <button id="submit-score">Submit</button>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

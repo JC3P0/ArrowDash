@@ -1,5 +1,3 @@
-/* src/scenes/highscores.css */
-
 body {
     margin: 0;
     display: flex;
@@ -8,12 +6,36 @@ body {
     height: 100vh;
     background-color: #000;
     flex-direction: column;
+    font-family: monospace; /* Monospace font for consistent width */
 }
 
 .highscores {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 555px;
+}
+
+.highscores h1 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+#highscores-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#highscores-table th, #highscores-table td {
+    border: 1px solid #fff;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+#highscores-table th {
+    background-color: #333;
 }
 
 .highscores button {
@@ -22,18 +44,56 @@ body {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    background-color: #fff;
+    color: #000;
 }
 
 .highscores button:hover {
-    background-color: #ffffff;
+    background-color: #ddd;
 }
 
-.highscores h1 {
-    color: white;
+#highscore-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
 }
 
-.highscores-list {
-    font-size: 24px;
+.popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.popup-content h2 {
+    margin-top: 0;
+}
+
+.popup-content input {
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    text-transform: uppercase;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.popup-content button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #000;
     color: #fff;
-    margin: 20px;
+    border: none;
+    border-radius: 4px;
+}
+
+.popup-content button:hover {
+    background-color: #333;
 }

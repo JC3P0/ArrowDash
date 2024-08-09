@@ -1,4 +1,3 @@
-// src/api/highscores.js
 const API_URL = 'http://localhost:3000'; // Replace with your actual API URL
 
 export async function getHighScores() {
@@ -11,11 +10,12 @@ export async function getHighScores() {
     }
 }
 
-export async function saveHighScore(player, score) {
+export async function saveHighScore({ player, score, level, avatar }) {
     try {
-        await window.axios.post(`${API_URL}/highscores`, { player, score });
+        const response = await window.axios.post(`${API_URL}/highscores`, { player, score, level, avatar });
+        return response.data;
     } catch (error) {
-        console.error('Error saving high score:', error);
+        console.error('Error saving high score:', error.response.data); // Log the detailed error message
         throw error;
     }
 }

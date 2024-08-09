@@ -1,4 +1,3 @@
-// server/models/Highscore.js
 const mongoose = require('mongoose');
 
 const HighscoreSchema = new mongoose.Schema({
@@ -8,9 +7,17 @@ const HighscoreSchema = new mongoose.Schema({
         minlength: 3,
         maxlength: 6,
         uppercase: true,
-        match: /^[A-Z]+$/
+        match: /^[A-Z0-9]+$/ // Updated to allow uppercase letters and numbers
     },
     score: {
+        type: Number,
+        required: true
+    },
+    level: {
+        type: Number,
+        required: true
+    },
+    avatar: {
         type: Number,
         required: true
     },

@@ -1,6 +1,7 @@
-// src/scenes/GameScene.js
-
-import { generateArrowSequence, displaySequence, updateArrowColor, loadHighScores, checkAndSaveHighScore, handleWorldBounds } from '../utils/gameUtils.js';
+import { generateArrowSequence, displaySequence, updateArrowColor } from '../utils/arrowSequence.js';
+import { loadHighScores, checkAndSaveHighScore } from '../utils/highScores.js';
+import { displayHealth, updateHealthText, loseHealth } from '../utils/playerHealth.js';
+import { handleWorldBounds } from '../utils/gameUtils.js';
 import playerAttributes from '../utils/playerAttributes.js';
 
 export default class GameScene extends Phaser.Scene {
@@ -28,11 +29,6 @@ export default class GameScene extends Phaser.Scene {
     create() {
         this.add.image(400, 300, 'sky'); // Add the background image
 
-        this.score = 0;
-        this.arrowSequence = generateArrowSequence(10);
-        this.currentArrowIndex = 0;
-        this.loadHighScores();
-
         this.player = this.physics.add.image(400, 500, window.selectedPlayer);
         this.player.setScale(0.5);
         this.player.setCollideWorldBounds(true); // Make the player bounce off the world bounds
@@ -43,14 +39,27 @@ export default class GameScene extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.currentDirection = { x: 0, y: 0 };
         this.lastDirection = { x: 0, y: 0 }; // Store the last direction
-        this.isMoving = false; // Flag to check if movement has started
 
         this.playerAttributes = playerAttributes[window.selectedPlayer];
+        this.playerAttributes.maxHealth = this.playerAttributes.health; // Store max health
         this.playerSpeed = this.playerAttributes.speed * 40; // Adjust speed factor as necessary
 
         this.scoreText = this.add.text(10, 10, 'Score: 0', { fontSize: '32px', fill: '#fff' });
+        this.levelText = this.add.text(10, 80, 'Level: 1', { fontSize: '32px', fill: '#fff' }); // Moved down
 
-        displaySequence(this);
+        this.level = 1;
+        loadHighScores(this);
+
+        // Reset the game state
+        this.score = 0;
+        this.currentArrowIndex = 0;
+        this.playerAttributes.health = this.playerAttributes.maxHealth;
+        this.currentArrowSequence = generateArrowSequence(10);
+        this.nextArrowSequence = generateArrowSequence(10);
+        displaySequence(this, this.currentArrowSequence);
+        displayHealth(this);
+        this.isMoving = false;
+        this.currentDirection = { x: 0, y: 0 };
 
         this.input.keyboard.on('keydown', this.handleKey, this);
     }
@@ -93,18 +102,30 @@ export default class GameScene extends Phaser.Scene {
             this.isMoving = true; // Start moving
         }
 
-        const currentArrowDirection = this.arrowSequence[this.currentArrowIndex];
+        const currentArrowDirection = this.currentArrowSequence[this.currentArrowIndex];
         if (event.key === `Arrow${currentArrowDirection.charAt(0).toUpperCase() + currentArrowDirection.slice(1)}`) {
             updateArrowColor(this, this.currentArrowIndex, currentArrowDirection);
             this.currentArrowIndex++;
             this.score += 10;
             this.updateScore();
 
-            if (this.currentArrowIndex >= this.arrowSequence.length) {
-                this.gameOver();
+            if (this.currentArrowIndex >= this.currentArrowSequence.length) {
+                this.level++;
+                this.levelText.setText('Level: ' + this.level);
+                this.currentArrowSequence = this.nextArrowSequence;
+                this.nextArrowSequence = generateArrowSequence(10);
+                this.currentArrowIndex = 0;
+
+                // Remove previous arrow sequence
+                this.arrows.forEach(arrow => arrow.destroy());
+                displaySequence(this, this.currentArrowSequence, 300); // Display new sequence at the same position
             }
         } else {
-            this.gameOver();
+            const healthIcons = {
+                full: '❤️',
+                empty: '♡'
+            };
+            loseHealth(this, healthIcons); // Lose health on incorrect key press
         }
     }
 
@@ -116,12 +137,45 @@ export default class GameScene extends Phaser.Scene {
         await loadHighScores(this);
     }
 
-    async gameOver() {
-        const playerName = prompt('You got a high score! Enter your name:');
-        if (playerName) {
-            await checkAndSaveHighScore(this, playerName, this.score);
+    async endGame() {
+        // Ensure the last arrow color change only if index is within bounds
+        if (this.currentArrowIndex > 0 && this.currentArrowIndex <= this.currentArrowSequence.length) {
+            const currentArrowDirection = this.currentArrowSequence[this.currentArrowIndex - 1];
+            updateArrowColor(this, this.currentArrowIndex - 1, currentArrowDirection);
         }
 
-        this.scene.start('MainMenuScene');
+        const healthIcons = {
+            full: '❤️',
+            empty: '♡'
+        };
+        updateHealthText(this, healthIcons);
+
+        setTimeout(() => {
+            const playerNameInput = document.getElementById('player-name');
+            const submitScoreButton = document.getElementById('submit-score');
+            const popup = document.getElementById('highscore-popup');
+
+            playerNameInput.value = '';
+            popup.style.display = 'flex';
+
+            const validateInput = (e) => {
+                const value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                e.target.value = value.substring(0, 6);
+            };
+
+            playerNameInput.addEventListener('input', validateInput);
+
+            submitScoreButton.onclick = async () => {
+                const playerName = playerNameInput.value.toUpperCase();
+                if (playerName.length >= 3 && playerName.length <= 6) {
+                    console.log(`Saving high score for player: ${playerName}, score: ${this.score}, level: ${this.level}, avatar: ${window.selectedPlayer.split('-')[1]}`);
+                    await checkAndSaveHighScore(this, playerName, this.score, this.level, window.selectedPlayer.split('-')[1]);
+                    console.log('High score save attempt finished');
+                    window.location.reload(); // Reload the entire webpage to reset the game
+                } else {
+                    alert('Name must be between 3 and 6 characters and contain only letters or numbers.');
+                }
+            };
+        }, 100); // Add a short delay to ensure prompt is handled
     }
 }

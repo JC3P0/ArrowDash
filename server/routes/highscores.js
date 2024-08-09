@@ -1,4 +1,3 @@
-// server/routes/highscores.js
 const express = require('express');
 const router = express.Router();
 const Highscore = require('../models/Highscore');
@@ -15,10 +14,12 @@ router.get('/', async (req, res) => {
 
 // Add a new highscore
 router.post('/', async (req, res) => {
-    const { player, score } = req.body;
+    const { player, score, level, avatar } = req.body;
     const newHighscore = new Highscore({
         player,
-        score
+        score,
+        level,
+        avatar
     });
 
     try {
