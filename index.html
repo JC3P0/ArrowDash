@@ -16,10 +16,11 @@
     <div id="player-selector-container" style="display: none;"></div>
     <div id="highscore-popup" style="display: none;">
         <div class="popup-content">
-            <h2>New High Score!</h2>
-            <label for="player-name">Enter your name:</label>
-            <input type="text" id="player-name" maxlength="6">
-            <button id="submit-score">Submit</button>
+            <h2 id="popup-title">New High Score!</h2>
+            <p id="popup-message">Enter your name:</p>
+            <input type="text" id="player-name" maxlength="6" style="display: none;">
+            <button id="submit-score" style="display: none;">Submit</button>
+            <button id="continue-button" style="display: none;">Continue</button>
         </div>
     </div>
 
