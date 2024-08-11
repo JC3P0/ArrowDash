@@ -1,12 +1,10 @@
-/* src/scenes/mainmenu.css */
-
 body {
     margin: 0;
+    height: 100vh;
+    background-color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #000;
     flex-direction: column;
 }
 
@@ -14,6 +12,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: absolute; /* Position the menu over the background */
+    top: 50%; /* Center the menu vertically */
+    left: 50%; /* Center the menu horizontally */
+    transform: translate(-50%, -50%); /* Offset the menu to be perfectly centered */
+    z-index: 10; /* Ensure the menu stays on top of the background */
+    padding-top: 325px;
 }
 
 .menu button {
@@ -22,6 +26,7 @@ body {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    border-radius: 20px;
 }
 
 .menu button.play {

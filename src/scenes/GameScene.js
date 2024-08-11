@@ -1,6 +1,5 @@
-// src/scenes/GameScene.js
-
 import { preload, create, handleKey, endGame, updateScore } from '../utils/gameUtils.js';
+import { startTimer } from '../utils/timer.js'; // Import timer function
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -13,6 +12,11 @@ export default class GameScene extends Phaser.Scene {
 
     create() {
         create(this);
+
+        // Start the timer with a duration of 60 seconds
+        startTimer(this, 60, () => {
+            this.endGame(); // End the game when the timer reaches 0
+        });
     }
 
     update() {

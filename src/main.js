@@ -11,7 +11,7 @@ const Phaser = window.Phaser; // Phaser is available globally via the CDN
 const gameConfig = {
     type: Phaser.AUTO,
     width: 800,
-    height: 600,
+    height: 740,
     backgroundColor: '#000000', // Set a background color
     physics: {
         default: 'arcade',
