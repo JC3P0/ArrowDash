@@ -1,6 +1,5 @@
 // src/main.js
 
-import PreloadScene from './scenes/PreloadScene.js';
 import GameScene from './scenes/GameScene.js';
 import PlayerSelectorScene from './scenes/PlayerSelectorScene.js';
 import HighScoresScene from './scenes/HighScoresScene.js';
@@ -20,7 +19,7 @@ const gameConfig = {
             debug: false
         }
     },
-    scene: [MainMenuScene, PreloadScene, GameScene, PlayerSelectorScene, HighScoresScene]
+    scene: [MainMenuScene, GameScene, PlayerSelectorScene, HighScoresScene]
 };
 
 const game = new Phaser.Game(gameConfig);

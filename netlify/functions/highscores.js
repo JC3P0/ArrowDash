@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const Highscore = require('../../server/models/Highscore'); // Adjusted path to the Highscore model
+const Highscore = require('./models/Highscore'); // Adjust path as necessary
 
 // Connect to MongoDB
 mongoose.connect(process.env.DATABASE_URL, {
@@ -33,6 +33,7 @@ exports.handler = async function (event, context) {
       };
     }
   } else if (event.httpMethod === 'POST') {
+    // Handle POST request
     if (event.path === '/.netlify/functions/highscores/token') {
       // Generate JWT for highscore submission
       const { player, score, level, avatar } = JSON.parse(event.body);

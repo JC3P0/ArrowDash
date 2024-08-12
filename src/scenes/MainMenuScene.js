@@ -4,19 +4,21 @@ export default class MainMenuScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('mainMenu', 'assets/mainMenu.png'); // Preload the main menu background image
+        this.load.image('mainMenu', 'assets/mainMenu.png'); // Preload the main menu image
     }
 
     create() {
-        // Add the main menu image at the correct position
-        this.add.image(this.scale.width / 2, this.scale.height / 2, 'mainMenu');
+        const mainMenuImage = this.textures.getBase64('mainMenu');
 
         document.getElementById('main-menu-container').innerHTML = `
-            <div class="menu">
-                <img id="selected-player-icon" class="player-icon" style="display: none;">
-                <button class="play" onclick="startGame()">Play</button>
-                <button onclick="selectPlayer()">Select Player</button>
-                <button onclick="viewHighScores()">High Scores</button>
+            <div class="menu-container">
+                <div class="menu-background" style="background-image: url(${mainMenuImage});"></div>
+                <div class="menu">
+                    <img id="selected-player-icon" class="player-icon" style="display: none;">
+                    <button class="play" onclick="startGame()">Play</button>
+                    <button onclick="selectPlayer()">Select Player</button>
+                    <button onclick="viewHighScores()">High Scores</button>
+                </div>
             </div>
         `;
 
@@ -33,7 +35,6 @@ export default class MainMenuScene extends Phaser.Scene {
         document.getElementById('selected-player-icon').style.display = 'block';
     }
 
-    // Cleanup on shutdown
     shutdown() {
         document.getElementById('main-menu-container').innerHTML = ''; // Clear content when leaving the scene
     }

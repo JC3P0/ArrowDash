@@ -67,7 +67,11 @@ export default class HighScoresScene extends Phaser.Scene {
     }
 
     formatHighScore(rank, { player, score, level, avatar, date }) {
-        const formattedDate = new Date(date).toLocaleDateString('en-GB');
+        const formattedDate = new Date(date).toLocaleDateString('en-US', {
+            year: '2-digit',
+            month: '2-digit',
+            day: '2-digit'
+        });
         return `
             <td>${String(rank).padStart(2, '0')}</td>
             <td>${player}</td>

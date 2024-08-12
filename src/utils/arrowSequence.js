@@ -12,7 +12,7 @@ export function displaySequence(scene, sequence) {
     };
 
     // Set the Y position to place arrows just below the sky image
-    const startY = 655 + 34; // Lower the arrows a bit to better center them in the background
+    const startY = 655 + 34; 
 
     // Remove the previous background if it exists
     if (scene.arrowBackground) {
@@ -25,7 +25,7 @@ export function displaySequence(scene, sequence) {
     const backgroundY = startY - 30; // Adjust for padding above the arrows and center them vertically
     const backgroundWidth = sequence.length * 66 + 12 + padding; // Increase the width of the background
     const backgroundHeight = 60; // Slightly reduce the height of the background
-    const backgroundColor = 0x2e2b5f; // Solid color that complements both blue and green arrows
+    const backgroundColor = 0x2e2b5f; 
     const outlineColor = 0x5a5499; 
 
     // Add a new background rectangle with rounded corners

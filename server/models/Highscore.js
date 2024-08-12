@@ -5,7 +5,7 @@ const HighscoreSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 3,
-        maxlength: 6,
+        maxlength: 8,
         uppercase: true,
         match: /^[A-Z0-9]+$/ // Updated to allow uppercase letters and numbers
     },

@@ -1,5 +1,9 @@
-import { preload, create, handleKey, endGame, updateScore } from '../utils/gameUtils.js';
+import { preload } from '../utils/preload.js';
+import { create } from '../utils/create.js';
+import { handleKey } from '../utils/inputManager.js';
+import { endGame } from '../utils/endGame.js';
 import { startTimer } from '../utils/timer.js'; // Import timer function
+import { updateScore } from '../utils/scoreManager.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
