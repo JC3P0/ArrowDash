@@ -58,7 +58,7 @@ router.post('/token', (req, res) => {
         return res.status(400).json({ message: 'Player, score, level, and avatar are required' });
     }
 
-    // Create a token with the player, score, level, and avatar information
+    // Create a token with the player, score, level, and avatar
     const token = jwt.sign({ player, score, level, avatar }, process.env.JWT_SECRET, { expiresIn: '10m' });
     res.status(200).json({ token });
 });

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Highscore = require('../../server/models/Highscore'); 
 
 // Connect to MongoDB
-mongoose.connect(process.env.DATABASE_URL, {});
+mongoose.connect(process.env.DATABASE_URL);
 
 // Middleware function to verify the JWT token
 const verifyToken = (token) => {
@@ -39,7 +39,7 @@ exports.handler = async function (event, context) {
       if (!player || !score || !level || !avatar) {
         return {
           statusCode: 400,
-          body: JSON.stringify({ message: 'Player, score, level, and avatar are required' }),
+          body: JSON.stringify({ message: 'player, score, level, and avatar are required' }),
         };
       }
 

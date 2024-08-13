@@ -10,7 +10,7 @@ client/node_modules/
 server/node_modules/
 
 # Build directories
-client/build/
+build/
 server/dist/
 **/.env
 

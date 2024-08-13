@@ -6,7 +6,6 @@ import PlayerSelectorScene from './scenes/PlayerSelectorScene.js';
 import HighScoresScene from './scenes/HighScoresScene.js';
 import MainMenuScene from './scenes/MainMenuScene.js';
 
-// Import CSS files
 import './scenes/mainmenu.css';
 import './scenes/playerselector.css';
 import './scenes/highscores.css';

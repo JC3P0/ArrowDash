@@ -48,13 +48,33 @@ export async function endGame(scene) {
 
             playerNameInput.addEventListener('input', validateInput);
 
-            submitScoreButton.onclick = async () => {
+            submitScoreButton.onclick = async (e) => {
+                // e.preventDefault(); // Prevent page reload
+
                 const playerName = playerNameInput.value.toUpperCase();
+                const avatar = window.selectedPlayer.split('-')[1]; // Assuming the avatar is part of the selected player
+
+                // Correcting the object keys
+                const submissionData = {
+                    player: playerName, // Renamed to `player`
+                    score: scene.score,
+                    level: scene.level,
+                    avatar: avatar
+                };
+
+                console.log('Attempting to submit score:', submissionData);
+
                 if (playerName.length >= 3 && playerName.length <= 8) {
-                    await checkAndSaveHighScore(scene, playerName, scene.score, scene.level, window.selectedPlayer.split('-')[1]);
-                    window.location.reload();
+                    try {
+                        await checkAndSaveHighScore(scene, submissionData.player, submissionData.score, submissionData.level, submissionData.avatar);
+                        console.log('Score submitted successfully!');
+                        // Uncomment the next line to refresh the page after debugging
+                        window.location.reload();
+                    } catch (error) {
+                        console.error('Error submitting score:', error);
+                    }
                 } else {
-                    alert('Name must be between 3 and 6 characters and contain only letters or numbers.');
+                    alert('Name must be between 3 and 8 characters and contain only letters or numbers.');
                 }
             };
         } else {

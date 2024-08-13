@@ -55,3 +55,4 @@ module.exports = {
     ],
     mode: 'production'
 };
+

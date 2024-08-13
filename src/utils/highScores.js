@@ -11,7 +11,7 @@ export async function loadHighScores(scene) {
 
 export async function checkAndSaveHighScore(scene, playerName, score, level, avatar) {
     try {
-        const token = await requestHighScoreToken(playerName, score);
+        const token = await requestHighScoreToken(playerName, score, level, avatar);
         if (token) {
             await saveHighScore({ token, player: playerName, score, level, avatar });
             console.log(`High score saved for player: ${playerName}, score: ${score}, level: ${level}, avatar: ${avatar}`);

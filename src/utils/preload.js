@@ -1,4 +1,5 @@
 // src/utils/preload.js
+
 import { preloadPowerUps } from './powerUps.js';
 
 export function preload(scene) {
