@@ -1,105 +1,66 @@
+const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const Highscore = require('../../server/models/Highscore'); // Adjusted path to the Highscore model
-
-// Connect to MongoDB
-mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const Highscore = require('../models/Highscore');
+const router = express.Router();
 
 // Middleware function to verify the JWT token
-const verifyToken = (token) => {
-  try {
-    return jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    throw new Error('Invalid token');
-  }
+const verifyToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    try {
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
+        next();
+    } catch (error) {
+        return res.status(403).json({ message: 'Invalid token' });
+    }
 };
 
-exports.handler = async function (event, context) {
-  if (event.httpMethod === 'GET') {
-    // Handle GET request: Retrieve top 10 highscores
+// GET route to retrieve top 10 highscores
+router.get('/', async (req, res) => {
     try {
-      const highscores = await Highscore.find().sort({ score: -1 }).limit(10);
-      return {
-        statusCode: 200,
-        body: JSON.stringify(highscores),
-      };
+        const highscores = await Highscore.find().sort({ score: -1 }).limit(10);
+        res.status(200).json(highscores);
     } catch (err) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ message: err.message }),
-      };
+        res.status(500).json({ message: err.message });
     }
-  } else if (event.httpMethod === 'POST') {
-    if (event.path === '/.netlify/functions/highscores/token') {
-      // Generate JWT for highscore submission
-      const { player, score, level, avatar } = JSON.parse(event.body);
+});
 
-      // Ensure that the player, score, level, and avatar are present
-      if (!player || !score || !level || !avatar) {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({ message: 'Player, score, level, and avatar are required' }),
-        };
-      }
+// POST route to add a new highscore (protected by JWT)
+router.post('/', verifyToken, async (req, res) => {
+    const { player, score, level, avatar } = req.user;
 
-      // Create a token with the player, score, level, and avatar information
-      const token = jwt.sign({ player, score, level, avatar }, process.env.JWT_SECRET, { expiresIn: '10m' });
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ token }),
-      };
-    } else {
-      // Add a new highscore (protected by JWT)
-      const authHeader = event.headers.authorization;
-      if (!authHeader) {
-        return {
-          statusCode: 401,
-          body: JSON.stringify({ message: 'Unauthorized' }),
-        };
-      }
-
-      const token = authHeader.split(' ')[1];
-      let user;
-
-      try {
-        user = verifyToken(token);
-      } catch (err) {
-        return {
-          statusCode: 403,
-          body: JSON.stringify({ message: err.message }),
-        };
-      }
-
-      const { player, score, level, avatar } = user;
-
-      const newHighscore = new Highscore({
+    const newHighscore = new Highscore({
         player,
         score,
         level,
         avatar,
-      });
+    });
 
-      try {
+    try {
         const savedHighscore = await newHighscore.save();
-        return {
-          statusCode: 201,
-          body: JSON.stringify(savedHighscore),
-        };
-      } catch (err) {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({ message: err.message }),
-        };
-      }
+        res.status(201).json(savedHighscore);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
-  } else {
-    // Return 405 Method Not Allowed for unsupported HTTP methods
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ message: 'Method Not Allowed' }),
-    };
-  }
-};
+});
+
+// Route to generate a JWT for highscore submission
+router.post('/token', (req, res) => {
+    const { player, score, level, avatar } = req.body;
+
+    // Ensure that the player, score, level, and avatar are present
+    if (!player || !score || !level || !avatar) {
+        return res.status(400).json({ message: 'Player, score, level, and avatar are required' });
+    }
+
+    // Create a token with the player, score, level, and avatar information
+    const token = jwt.sign({ player, score, level, avatar }, process.env.JWT_SECRET, { expiresIn: '10m' });
+    res.status(200).json({ token });
+});
+
+module.exports = router;

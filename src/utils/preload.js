@@ -2,6 +2,7 @@
 import { preloadPowerUps } from './powerUps.js';
 
 export function preload(scene) {
+
     scene.load.image('level-1', 'assets/level-1.png');
     scene.load.image('level-10', 'assets/level-10.png');
     scene.load.image('player-1', 'assets/player-1.png');

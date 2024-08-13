@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arrow Dash</title>
-    <link rel="stylesheet" href="src/scenes/mainmenu.css">
-    <link rel="stylesheet" href="src/scenes/playerselector.css">
-    <link rel="stylesheet" href="src/scenes/highscores.css">
-    <link rel="stylesheet" href="src/scenes/gamescene.css">
+    <!-- Updated paths to reflect the build output -->
+    <link rel="stylesheet" href="styles.css"> <!-- CSS now bundled in styles.css -->
 </head>
 <body>
     <div id="main-menu-container"></div>
@@ -23,13 +21,12 @@
             <button id="continue-button" style="display: none;">Continue</button>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         // Make axios available globally
         window.axios = axios;
     </script>
-    <script type="module" src="src/main.js"></script>
+    <script type="module" src="main.js"></script> <!-- Adjusted to reflect bundled JS -->
 </body>
 </html>

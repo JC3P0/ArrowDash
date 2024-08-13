@@ -1,12 +1,9 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const Highscore = require('./models/Highscore'); // Adjust path as necessary
+const Highscore = require('../../server/models/Highscore'); 
 
 // Connect to MongoDB
-mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.DATABASE_URL, {});
 
 // Middleware function to verify the JWT token
 const verifyToken = (token) => {

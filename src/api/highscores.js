@@ -1,5 +1,7 @@
 // src/api/highscores.js
-const API_URL = 'http://localhost:3000';
+
+const API_URL = 'http://localhost:3000'; //dev settings
+// const API_URL = '/.netlify/functions';
 
 export async function getHighScores() {
     try {
