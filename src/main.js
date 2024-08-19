@@ -24,6 +24,10 @@ if (!window.game) {
                 debug: false
             }
         },
+        scale: {
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH
+        },
         scene: [MainMenuScene, GameScene, PlayerSelectorScene, HighScoresScene]
     };
 

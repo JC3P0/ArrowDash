@@ -10,8 +10,8 @@ export default class GameScene extends Phaser.Scene {
         super({ key: 'GameScene' });
     }
 
-    preload() {
-        preload(this);
+    async preload() {
+        await preload(this);
     }
 
     create() {
