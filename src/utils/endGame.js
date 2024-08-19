@@ -1,8 +1,11 @@
 // src/utils/endGame.js
 
+import { Filter } from 'bad-words';
 import { updateHealthText } from './playerHealth.js';
 import { updateArrowColor } from './arrowSequence.js';
 import { checkAndSaveHighScore } from './highScores.js';
+
+const filter = new Filter();
 
 export async function endGame(scene) {
     scene.isMoving = false;
@@ -43,7 +46,7 @@ export async function endGame(scene) {
 
             const validateInput = (e) => {
                 const value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-                e.target.value = value.substring(0, 8);
+                e.target.value = value.substring(0, 6);
             };
 
             playerNameInput.addEventListener('input', validateInput);
@@ -52,11 +55,25 @@ export async function endGame(scene) {
                 // e.preventDefault(); // Prevent page reload
 
                 const playerName = playerNameInput.value.toUpperCase();
-                const avatar = window.selectedPlayer.split('-')[1]; // Assuming the avatar is part of the selected player
+                const avatar = window.selectedPlayer.split('-')[1];
+
+                // Check for inappropriate words
+                if (filter.isProfane(playerName)) {
+                    popupMessage.textContent = `"${playerName}" is not allowed. If you believe this was caught by mistake, please screenshot and let us know.`;
+                    playerNameInput.style.display = 'none';
+                    submitScoreButton.style.display = 'none';
+                    continueButton.style.display = 'block';
+
+                    continueButton.onclick = () => {
+                        window.location.reload();
+                    };
+
+                    return; // Exit the function to prevent submission
+                }
 
                 // Correcting the object keys
                 const submissionData = {
-                    player: playerName, // Renamed to `player`
+                    player: playerName,
                     score: scene.score,
                     level: scene.level,
                     avatar: avatar
@@ -64,7 +81,7 @@ export async function endGame(scene) {
 
                 console.log('Attempting to submit score:', submissionData);
 
-                if (playerName.length >= 3 && playerName.length <= 8) {
+                if (playerName.length >= 3 && playerName.length <= 6) {
                     try {
                         await checkAndSaveHighScore(scene, submissionData.player, submissionData.score, submissionData.level, submissionData.avatar);
                         console.log('Score submitted successfully!');
@@ -74,7 +91,7 @@ export async function endGame(scene) {
                         console.error('Error submitting score:', error);
                     }
                 } else {
-                    alert('Name must be between 3 and 8 characters and contain only letters or numbers.');
+                    alert('Name must be between 3 and 6 characters and contain only letters or numbers.');
                 }
             };
         } else {

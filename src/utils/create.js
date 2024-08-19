@@ -5,11 +5,11 @@ import playerAttributes from './playerAttributes.js';
 import { loadHighScores } from './highScores.js';
 import { handleKey } from './inputManager.js'
 import { startPowerUpSpawning } from './powerUps.js';
-import { setLevelBackground } from './levelManager.js';
 import { handleWorldBounds } from './worldBoundsManager.js';
 import { generateArrowSequence, displaySequence } from './arrowSequence.js';
 
 export function create(scene) {
+    document.querySelector('canvas').style.display = 'block';
     scene.background = scene.add.image(400, 355, 'level-1');
 
     scene.physics.world.setBounds(0, 55, 800, 600);

@@ -1,11 +1,10 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Highscore = require('../models/Highscore');
 const router = express.Router();
 
 // Middleware function to verify the JWT token
-const verifyToken = (req, res, next) => {
+const verifyToken = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
         return res.status(401).json({ message: 'Unauthorized' });
@@ -14,6 +13,13 @@ const verifyToken = (req, res, next) => {
     const token = authHeader.split(' ')[1];
     try {
         req.user = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Check if the token has already been used
+        const existingHighscore = await Highscore.findOne({ token });
+        if (existingHighscore) {
+            return res.status(400).json({ message: 'Token has already been used' });
+        }
+
         next();
     } catch (error) {
         return res.status(403).json({ message: 'Invalid token' });
@@ -39,6 +45,7 @@ router.post('/', verifyToken, async (req, res) => {
         score,
         level,
         avatar,
+        token: req.headers.authorization.split(' ')[1] // Store the token with the highscore
     });
 
     try {

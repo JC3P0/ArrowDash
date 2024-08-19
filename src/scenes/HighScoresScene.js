@@ -1,3 +1,4 @@
+import { preload } from '../utils/preload.js';
 import { getHighScores } from '../api/highscores.js';
 
 export default class HighScoresScene extends Phaser.Scene {
@@ -5,16 +6,12 @@ export default class HighScoresScene extends Phaser.Scene {
         super({ key: 'HighScoresScene' });
     }
 
-    preload() {
-        // Preload player images
-        this.load.image('player-1', 'assets/player-1.png');
-        this.load.image('player-2', 'assets/player-2.png');
-        this.load.image('player-3', 'assets/player-3.png');
-        this.load.image('player-4', 'assets/player-4.png');
-        this.load.image('player-5', 'assets/player-5.png');
+    async preload() {
+        await preload(this);
     }
 
     create() {
+        document.querySelector('canvas').style.display = 'none';
         document.getElementById('highscores-container').innerHTML = `
             <div class="highscores">
                 <h1>High Scores</h1>
@@ -72,10 +69,14 @@ export default class HighScoresScene extends Phaser.Scene {
             month: '2-digit',
             day: '2-digit'
         });
+
+        // Use cached images from Phaser's texture cache
+        const avatarImage = this.textures.getBase64(`player-${avatar}`);
+
         return `
             <td>${String(rank).padStart(2, '0')}</td>
             <td>${player}</td>
-            <td><img src="assets/player-${avatar}.png" alt="Avatar ${avatar}" style="width: 32px; height: 32px;"></td>
+            <td><img src="${avatarImage}" alt="Avatar ${avatar}" style="width: 32px; height: 32px;"></td>
             <td>${score}</td>
             <td>${level}</td>
             <td>${formattedDate}</td>

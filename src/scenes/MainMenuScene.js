@@ -1,18 +1,21 @@
+import { preload } from '../utils/preload.js';
+
 export default class MainMenuScene extends Phaser.Scene {
     constructor() {
         super({ key: 'MainMenuScene' });
     }
 
-    preload() {
-        this.load.image('mainMenu', 'assets/mainMenu.png'); // Preload the main menu image
+    async preload() {
+        await preload(this);
     }
 
     create() {
-        const mainMenuImage = this.textures.getBase64('mainMenu');
+        document.querySelector('canvas').style.display = 'none';
+        const mainMenuImageUrl = 'https://raw.githubusercontent.com/JC3P0/ArrowDash/main/assets/mainMenu.png';
 
         document.getElementById('main-menu-container').innerHTML = `
             <div class="menu-container">
-                <div class="menu-background" style="background-image: url(${mainMenuImage});"></div>
+                <div class="menu-background" style="background-image: url(${mainMenuImageUrl});"></div>
                 <div class="menu">
                     <img id="selected-player-icon" class="player-icon" style="display: none;">
                     <button class="play" onclick="startGame()">Play</button>
@@ -31,7 +34,9 @@ export default class MainMenuScene extends Phaser.Scene {
             const players = ['player-1', 'player-2', 'player-3', 'player-4', 'player-5'];
             window.selectedPlayer = players[Math.floor(Math.random() * players.length)];
         }
-        document.getElementById('selected-player-icon').src = `assets/${window.selectedPlayer}.png`;
+
+        const playerImageUrl = `https://raw.githubusercontent.com/JC3P0/ArrowDash/main/assets/${window.selectedPlayer}.png`;
+        document.getElementById('selected-player-icon').src = playerImageUrl;
         document.getElementById('selected-player-icon').style.display = 'block';
     }
 

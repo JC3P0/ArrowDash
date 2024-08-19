@@ -15,7 +15,6 @@ export function displayHealth(scene, xPosition, yPosition) {
     updateHealthText(scene, healthIcons);
 }
 
-
 export function updateHealthText(scene, healthIcons) {
     const { health, maxHealth } = scene.playerAttributes;
     for (let i = 0; i < maxHealth; i++) {
@@ -24,7 +23,7 @@ export function updateHealthText(scene, healthIcons) {
             scene.healthIcons[i].setFontSize(32); // Full heart size
         } else {
             scene.healthIcons[i].setText(healthIcons.empty);
-            scene.healthIcons[i].setFontSize(42); // Adjust empty heart size as needed
+            scene.healthIcons[i].setFontSize(39); // Adjust empty heart size as needed
         }
     }
 }

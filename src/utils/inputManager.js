@@ -33,8 +33,12 @@ export function handleKey(scene, event) {
         scene.isMoving = true;
     }
 
+    handleArrowSequence(scene, event.key);
+}
+
+function handleArrowSequence(scene, key) {
     const currentArrowDirection = scene.currentArrowSequence[scene.currentArrowIndex];
-    if (event.key === `Arrow${currentArrowDirection.charAt(0).toUpperCase() + currentArrowDirection.slice(1)}`) {
+    if (key === `Arrow${currentArrowDirection.charAt(0).toUpperCase() + currentArrowDirection.slice(1)}`) {
         updateArrowColor(scene, scene.currentArrowIndex, currentArrowDirection);
         scene.currentArrowIndex++;
         updateScore(scene, 10);
@@ -60,5 +64,43 @@ export function handleKey(scene, event) {
             empty: '♡'
         };
         loseHealth(scene, healthIcons);
+    }
+}
+
+// Add swipe detection
+export function enableSwipeInput(scene) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    scene.input.on('pointerdown', function (pointer) {
+        touchStartX = pointer.x;
+        touchStartY = pointer.y;
+    });
+
+    scene.input.on('pointerup', function (pointer) {
+        touchEndX = pointer.x;
+        touchEndY = pointer.y;
+        handleSwipe(scene, touchStartX, touchStartY, touchEndX, touchEndY);;
+    });
+}
+
+function handleSwipe(scene, touchStartX, touchStartY, touchEndX, touchEndY) {
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX > 0) {
+            handleKey(scene, { key: 'ArrowRight' });
+        } else {
+            handleKey(scene, { key: 'ArrowLeft' });
+        }
+    } else {
+        if (deltaY > 0) {
+            handleKey(scene, { key: 'ArrowDown' });
+        } else {
+            handleKey(scene, { key: 'ArrowUp' });
+        }
     }
 }

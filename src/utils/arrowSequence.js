@@ -32,16 +32,16 @@ export function displaySequence(scene, sequence) {
     scene.arrowBackground = scene.add.graphics();
     
     // Draw the background with rounded corners
-    scene.arrowBackground.fillStyle(backgroundColor, .8); // Solid background color with full opacity
-    scene.arrowBackground.fillRoundedRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, 30); // Rounded corners with a radius of 25
+    scene.arrowBackground.fillStyle(backgroundColor, .8);
+    scene.arrowBackground.fillRoundedRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, 30);
 
     // Draw the transparent outline, slightly inset and smaller
     scene.arrowBackground.lineStyle(7, outlineColor, 1);
-    scene.arrowBackground.strokeRoundedRect(backgroundX + 0, backgroundY + 0, backgroundWidth - 2, backgroundHeight - 2, 30); // Slightly inset with a 23 radius
+    scene.arrowBackground.strokeRoundedRect(backgroundX + 0, backgroundY + 0, backgroundWidth - 2, backgroundHeight - 2, 30);
 
     // Display the arrow sequence on top of the background
     scene.arrows = sequence.map((direction, index) => {
-        return scene.add.image(backgroundX + padding / 2 + 20 + index * 70, startY, arrowImages[direction]); // Adjust for padding
+        return scene.add.image(backgroundX + padding / 2 + 20 + index * 70, startY, arrowImages[direction]);
     });
 }
 

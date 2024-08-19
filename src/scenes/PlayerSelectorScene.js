@@ -1,3 +1,4 @@
+import { preload } from '../utils/preload.js';
 import playerAttributes from '../utils/playerAttributes.js';
 
 export default class PlayerSelectorScene extends Phaser.Scene {
@@ -5,15 +6,12 @@ export default class PlayerSelectorScene extends Phaser.Scene {
         super({ key: 'PlayerSelectorScene' });
     }
 
-    preload() {
-        this.load.image('player-1', 'assets/player-1.png');
-        this.load.image('player-2', 'assets/player-2.png');
-        this.load.image('player-3', 'assets/player-3.png');
-        this.load.image('player-4', 'assets/player-4.png');
-        this.load.image('player-5', 'assets/player-5.png');
+    async preload() {
+        await preload(this);
     }
 
     create() {
+        document.querySelector('canvas').style.display = 'none';
         document.getElementById('player-selector-container').innerHTML = `
             <div class="player-selector">
                 <h1>Select Your Player</h1>
@@ -49,9 +47,10 @@ export default class PlayerSelectorScene extends Phaser.Scene {
     generatePlayerAttributesTable() {
         return Object.keys(playerAttributes).map(playerId => {
             const { speed, health } = playerAttributes[playerId];
+            const playerImage = this.textures.getBase64(playerId); // Use cached image
             return `
                 <tr>
-                    <td><img src="assets/${playerId}.png" alt="${playerId}" class="player-icon-small" data-player-id="${playerId}"></td>
+                    <td><img src="${playerImage}" alt="${playerId}" class="player-icon-small" data-player-id="${playerId}"></td>
                     <td>${speed}</td>
                     <td>${health}</td>
                 </tr>
@@ -63,7 +62,8 @@ export default class PlayerSelectorScene extends Phaser.Scene {
         console.log('Selected player:', playerId);
         // Save the selected player to a global variable or state
         window.selectedPlayer = playerId;
-        document.getElementById('selected-player-icon').src = `assets/${playerId}.png`;
+        const playerImage = this.textures.getBase64(playerId);
+        document.getElementById('selected-player-icon').src = playerImage;
         document.getElementById('selected-player-icon').style.display = 'block';
         this.backToMenu();
     }

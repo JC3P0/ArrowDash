@@ -5,9 +5,9 @@ const HighscoreSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 3,
-        maxlength: 8,
+        maxlength: 6,
         uppercase: true,
-        match: /^[A-Z0-9]+$/ // Updated to allow uppercase letters and numbers
+        match: /^[A-Z0-9]+$/ // Allows uppercase letters and numbers
     },
     score: {
         type: Number,
@@ -24,6 +24,11 @@ const HighscoreSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    token: {
+        type: String,
+        required: true,
+        unique: true // Ensure each token is unique
     }
 });
 

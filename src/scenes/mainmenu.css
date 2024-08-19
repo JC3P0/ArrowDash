@@ -19,7 +19,6 @@ body {
 
 .menu-background {
     position: absolute;
-    top: 275px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -36,7 +35,7 @@ body {
     justify-content: center; /* Center the buttons within the menu */
     position: relative;
     z-index: 2; /* Ensure the buttons stay on top of the background */
-    padding-top: 605px; /* Adjust padding to position the buttons */
+    padding-top: 325px; /* Adjust padding to position the buttons */
 }
 
 .menu button {
@@ -56,4 +55,3 @@ body {
 .menu button:hover {
     background-color: #ffffff;
 }
-

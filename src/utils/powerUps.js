@@ -3,12 +3,6 @@
 import { updateScore } from './scoreManager.js';
 import { updateHealthText } from './playerHealth.js'; // Import the function to update health
 
-export function preloadPowerUps(scene) {
-    scene.load.image('xp', 'assets/xp.png');
-    scene.load.image('heart', 'assets/heart.png');
-    scene.load.image('timer', 'assets/timer.png');
-}
-
 export function createPowerUp(scene, type, x, y) {
     let powerUpImageKey;
 

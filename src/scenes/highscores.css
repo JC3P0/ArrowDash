@@ -15,7 +15,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 585px;
+    padding-top: 100px;
 }
 
 .highscores h1 {
@@ -100,4 +100,3 @@ body {
 .popup-content button:hover {
     background-color: #333;
 }
-

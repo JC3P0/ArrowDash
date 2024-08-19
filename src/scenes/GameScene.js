@@ -1,6 +1,6 @@
 import { preload } from '../utils/preload.js';
 import { create } from '../utils/create.js';
-import { handleKey } from '../utils/inputManager.js';
+import { handleKey, enableSwipeInput  } from '../utils/inputManager.js';
 import { endGame } from '../utils/endGame.js';
 import { startTimer } from '../utils/timer.js'; // Import timer function
 import { updateScore } from '../utils/scoreManager.js';
@@ -21,6 +21,9 @@ export default class GameScene extends Phaser.Scene {
         startTimer(this, 60, () => {
             this.endGame(); // End the game when the timer reaches 0
         });
+        
+        // Enable swipe input for touch devices
+        enableSwipeInput(this);
     }
 
     update() {

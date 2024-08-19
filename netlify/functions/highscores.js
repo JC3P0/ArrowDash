@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const Highscore = require('../../server/models/Highscore'); 
+const Highscore = require('../../server/models/Highscore');
 
 // Connect to MongoDB
 mongoose.connect(process.env.DATABASE_URL);
@@ -30,7 +30,6 @@ exports.handler = async function (event, context) {
       };
     }
   } else if (event.httpMethod === 'POST') {
-    // Handle POST request
     if (event.path === '/.netlify/functions/highscores/token') {
       // Generate JWT for highscore submission
       const { player, score, level, avatar } = JSON.parse(event.body);
@@ -71,6 +70,15 @@ exports.handler = async function (event, context) {
         };
       }
 
+      // Check if the token has already been used
+      const existingHighscore = await Highscore.findOne({ token });
+      if (existingHighscore) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ message: 'Token has already been used' }),
+        };
+      }
+
       const { player, score, level, avatar } = user;
 
       const newHighscore = new Highscore({
@@ -78,6 +86,7 @@ exports.handler = async function (event, context) {
         score,
         level,
         avatar,
+        token // Store the token in the database
       });
 
       try {
