@@ -5,33 +5,35 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #000;
     flex-direction: column;
-    font-family: monospace; /* Monospace font for consistent width */
+    font-family: monospace;
 }
 
 .highscores {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 100px;
+    padding-top: 10vh; /* Use viewport height for padding */
 }
 
 .highscores h1 {
     color: white;
-    margin-bottom: 20px;
+    margin-bottom: 2vh;
+    font-size: 2rem; /* Responsive font size */
 }
 
 #highscores-table {
-    width: 80%;
+    width: 90%; /* Adjust table width to be more responsive */
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-bottom: 2vh;
+    font-size: 1rem; /* Responsive font size */
 }
 
 #highscores-table th, #highscores-table td {
     border: 1px solid #fff;
-    padding: 10px;
+    padding: 1vh;
     text-align: center;
     color: #fff;
 }
@@ -41,14 +43,14 @@ body {
 }
 
 .highscores button {
-    font-size: 24px;
-    margin: 10px;
-    padding: 10px 20px;
+    font-size: 1.5rem;
+    margin: 1vh;
+    padding: 1vh 2vh;
     border: none;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #414040;
     color: #000;
-    border-radius: 20px;
+    border-radius: 2vh;
 }
 
 .highscores button:hover {
@@ -64,37 +66,40 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(70, 69, 69, 0.945);
 }
 
 .popup-content {
     background: #fff;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 2vh;
+    border-radius: 1vh;
     text-align: center;
+    width: 80%;
+    max-width: 500px;
 }
 
 .popup-content h2 {
     margin-top: 0;
+    font-size: 1.5rem;
 }
 
 .popup-content input {
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 16px;
+    padding: 1vh;
+    margin: 1vh 0;
+    font-size: 1rem;
     text-transform: uppercase;
     width: 100%;
     box-sizing: border-box;
 }
 
 .popup-content button {
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 1vh 2vh;
+    font-size: 1rem;
     cursor: pointer;
     background-color: #000;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 1vh;
 }
 
 .popup-content button:hover {

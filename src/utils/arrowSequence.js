@@ -11,7 +11,7 @@ export function displaySequence(scene, sequence) {
         right: 'blueRight'
     };
 
-    // Set the Y position to place arrows just below the sky image
+    // Set the Y position to place arrows just below the canvas image
     const startY = 655 + 34; 
 
     // Remove the previous background if it exists

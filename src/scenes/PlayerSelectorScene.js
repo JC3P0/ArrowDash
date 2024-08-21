@@ -1,13 +1,8 @@
-import { preload } from '../utils/preload.js';
 import playerAttributes from '../utils/playerAttributes.js';
 
 export default class PlayerSelectorScene extends Phaser.Scene {
     constructor() {
         super({ key: 'PlayerSelectorScene' });
-    }
-
-    async preload() {
-        await preload(this);
     }
 
     create() {

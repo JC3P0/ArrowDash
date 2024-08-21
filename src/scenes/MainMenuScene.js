@@ -18,9 +18,9 @@ export default class MainMenuScene extends Phaser.Scene {
                 <div class="menu-background" style="background-image: url(${mainMenuImageUrl});"></div>
                 <div class="menu">
                     <img id="selected-player-icon" class="player-icon" style="display: none;">
-                    <button class="play" onclick="startGame()">Play</button>
-                    <button onclick="selectPlayer()">Select Player</button>
-                    <button onclick="viewHighScores()">High Scores</button>
+                    <button class="play" id="playButton" disabled>Play</button>
+                    <button id="selectPlayerButton" disabled>Select Player</button>
+                    <button id="viewHighScoresButton" disabled>High Scores</button>
                 </div>
             </div>
         `;
@@ -30,6 +30,7 @@ export default class MainMenuScene extends Phaser.Scene {
         document.getElementById('game-container').style.display = 'none';
         document.getElementById('player-selector-container').style.display = 'none';
 
+        // Set up the selected player icon
         if (!window.selectedPlayer) {
             const players = ['player-1', 'player-2', 'player-3', 'player-4', 'player-5'];
             window.selectedPlayer = players[Math.floor(Math.random() * players.length)];
@@ -38,6 +39,48 @@ export default class MainMenuScene extends Phaser.Scene {
         const playerImageUrl = `https://raw.githubusercontent.com/JC3P0/ArrowDash/main/assets/${window.selectedPlayer}.png`;
         document.getElementById('selected-player-icon').src = playerImageUrl;
         document.getElementById('selected-player-icon').style.display = 'block';
+
+        // Check if all assets are loaded before enabling the buttons
+        this.checkAssetsLoaded();
+    }
+
+    checkAssetsLoaded() {
+        const assetsToCheck = [
+            'level-1', 'level-10', 'player-1', 'player-2', 'player-3', 
+            'player-4', 'player-5', 'blueUp', 'blueDown', 'blueLeft', 
+            'blueRight', 'greenUp', 'greenDown', 'greenLeft', 'greenRight', 
+            'xp', 'heart', 'timer'
+        ];
+
+        let allLoaded = true;
+
+        assetsToCheck.forEach(asset => {
+            if (!this.textures.exists(asset)) {
+                allLoaded = false;
+            }
+        });
+
+        if (allLoaded) {
+            this.enableMenuButtons();
+        } else {
+            // Retry checking after a short delay if not all assets are loaded
+            this.time.delayedCall(100, this.checkAssetsLoaded, [], this);
+        }
+    }
+
+    enableMenuButtons() {
+        const playButton = document.getElementById('playButton');
+        const selectPlayerButton = document.getElementById('selectPlayerButton');
+        const viewHighScoresButton = document.getElementById('viewHighScoresButton');
+
+        playButton.disabled = false;
+        selectPlayerButton.disabled = false;
+        viewHighScoresButton.disabled = false;
+
+        // Attach the event listeners after enabling the buttons
+        playButton.addEventListener('click', startGame);
+        selectPlayerButton.addEventListener('click', selectPlayer);
+        viewHighScoresButton.addEventListener('click', viewHighScores);
     }
 
     shutdown() {

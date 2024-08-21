@@ -1,5 +1,4 @@
-import { preload } from '../utils/preload.js';
-import { create } from '../utils/create.js';
+import { createGameScene } from '../utils/createGameScene.js';
 import { handleKey, enableSwipeInput  } from '../utils/inputManager.js';
 import { endGame } from '../utils/endGame.js';
 import { startTimer } from '../utils/timer.js'; // Import timer function
@@ -10,18 +9,12 @@ export default class GameScene extends Phaser.Scene {
         super({ key: 'GameScene' });
     }
 
-    async preload() {
-        await preload(this);
-    }
-
     create() {
-        create(this);
-
+        createGameScene(this);
         // Start the timer with a duration of 60 seconds
         startTimer(this, 60, () => {
             this.endGame(); // End the game when the timer reaches 0
         });
-        
         // Enable swipe input for touch devices
         enableSwipeInput(this);
     }

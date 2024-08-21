@@ -14,6 +14,10 @@ export function handleKey(scene, event) {
     };
 
     const newDirection = directionMap[event.key];
+    if (!newDirection){
+        return; // Ignore any key that isn't mapped
+    }
+
     if (newDirection) {
         if ((scene.currentDirection.x + newDirection.x === 0 && scene.currentDirection.y === 0) ||
             (scene.currentDirection.y + newDirection.y === 0 && scene.currentDirection.x === 0)) {

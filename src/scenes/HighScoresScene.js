@@ -1,13 +1,8 @@
-import { preload } from '../utils/preload.js';
 import { getHighScores } from '../api/highscores.js';
 
 export default class HighScoresScene extends Phaser.Scene {
     constructor() {
         super({ key: 'HighScoresScene' });
-    }
-
-    async preload() {
-        await preload(this);
     }
 
     create() {

@@ -33,7 +33,7 @@ export function loseHealth(scene, healthIcons) {
         scene.playerAttributes.health -= 1;
         updateHealthText(scene, healthIcons);
         if (scene.playerAttributes.health === 0) {
-            scene.endGame(); // Call endGame instead of gameOver
+            scene.endGame();
         }
     }
 }

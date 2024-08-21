@@ -56,6 +56,7 @@ canvas {
     margin-bottom: 10px;
     border: none;
     border-radius: 5px;
+    background-color: #616060;
 }
 
 #highscore-popup button {

@@ -2,8 +2,8 @@
 
 body {
     margin: 0;
-    height: 100vh;
-    overflow: hidden; /* Prevent scrolling */
+    min-height: 100vh;
+    overflow: hidden;
     background-color: #000;
     display: flex;
     justify-content: center;
@@ -13,8 +13,10 @@ body {
 
 .menu-container {
     position: relative;
-    width: 625px; 
-    height: 625px; 
+    width: 90vw; /* Relative to viewport width */
+    max-width: 625px; /* Cap max width */
+    height: 90vw; /* Keep the same aspect ratio */
+    max-height: 625px;
 }
 
 .menu-background {
@@ -22,34 +24,36 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 20px;
-    background-size: cover; /* Ensure the image covers the entire div */
-    background-position: center; /* Center the background image */
-    z-index: 1; /* Ensure the background is behind the buttons */
+    border-radius: 2vh;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
 }
 
 .menu {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Center the buttons within the menu */
+    justify-content: center;
     position: relative;
-    z-index: 2; /* Ensure the buttons stay on top of the background */
-    padding-top: 325px; /* Adjust padding to position the buttons */
+    z-index: 2;
+    padding-top: 55%; /* Adjust padding to position the buttons */
 }
 
 .menu button {
-    font-size: 24px;
-    margin: 10px;
-    padding: 10px 20px;
+    font-size: clamp(16px, 4vw, 24px); /* Clamp function to limit text size */
+    margin: 1vh;
+    padding: 1vh 2vh;
     border: none;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: 2vh;
+    color: #000;
+    background-color: gray;
 }
 
 .menu button.play {
     background-color: #00ff00;
-    font-size: 32px;
+    font-size: clamp(18px, 5vw, 32px); /* Larger font for the play button with limits */
 }
 
 .menu button:hover {
