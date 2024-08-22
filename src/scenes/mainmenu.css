@@ -53,7 +53,7 @@ body {
 
 .menu button.play {
     background-color: #00ff00;
-    font-size: clamp(18px, 5vw, 32px); /* Larger font for the play button with limits */
+    font-size: clamp(18px, 5vw, 34px); /* Larger font for the play button with limits */
 }
 
 .menu button:hover {
