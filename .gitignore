@@ -26,6 +26,6 @@ sources.txt
 runtime/
 installer/
 commands/
-
+CLAUDE.md
 # Local Netlify folder
 .netlify
