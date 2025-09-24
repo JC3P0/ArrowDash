@@ -11,7 +11,8 @@ export default class MainMenuScene extends Phaser.Scene {
 
     create() {
         document.querySelector('canvas').style.display = 'none';
-        const mainMenuImageUrl = 'https://raw.githubusercontent.com/JC3P0/ArrowDash/main/assets/mainMenu.png';
+        // GitHub URL commented out when repo made private
+        const mainMenuImageUrl = 'assets/mainMenu.png';
 
         document.getElementById('main-menu-container').innerHTML = `
             <div class="menu-container">
@@ -36,7 +37,8 @@ export default class MainMenuScene extends Phaser.Scene {
             window.selectedPlayer = players[Math.floor(Math.random() * players.length)];
         }
 
-        const playerImageUrl = `https://raw.githubusercontent.com/JC3P0/ArrowDash/main/assets/${window.selectedPlayer}.png`;
+        // GitHub URL commented out when repo made private
+        const playerImageUrl = `assets/${window.selectedPlayer}.png`;
         document.getElementById('selected-player-icon').src = playerImageUrl;
         document.getElementById('selected-player-icon').style.display = 'block';
 
