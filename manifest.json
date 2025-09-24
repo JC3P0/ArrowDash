@@ -3,17 +3,17 @@
     "name": "Arrow Dash Game",
     "icons": [
         {
-            "src": "assets/favicon.png",
+            "src": "https://raw.githubusercontent.com/JC3P0/misc_assets/main/ArrowDash/favicon.png",
             "sizes": "32x32",
             "type": "image/png"
         },
         {
-            "src": "assets/favicon-128x128.png",
+            "src": "https://raw.githubusercontent.com/JC3P0/misc_assets/main/ArrowDash/favicon-128x128.png",
             "sizes": "128x128",
             "type": "image/png"
         },
         {
-            "src": "assets/favicon-512x512.png",
+            "src": "https://raw.githubusercontent.com/JC3P0/misc_assets/main/ArrowDash/favicon-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
